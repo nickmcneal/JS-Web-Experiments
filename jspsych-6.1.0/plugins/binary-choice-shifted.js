@@ -69,13 +69,11 @@ jsPsych.plugins["binary-choice-shifted"] = (function () {
 
     
       new_html += '<div class="container-multi-choice">';
-      new_html += '<div class="container-multi-choice-column" id= "multiattribute-choices-stimulus-left">';
-      //new_html += `<div id="multiattribute-choices-stimulus-left " ><img style ="position:relative; LEFT:-150px; TOP:0px; HEIGHT:100px; WIDTH:100px" src="${trial.stimulus[0]}"/></div>`;
-      new_html += `<div id="multiattribute-choices-stimulus-left " ><img style ="position:fixed; HEIGHT:100px; WIDTH:100px; TOP:50%; LEFT:40%; transform: translate(-50%, -50%)" src="${trial.stimulus[0]}"/></div>`;
+      new_html += '<div class="container-multi-choice-column" id= "multiattribute-choices-stimulus-left" style ="position:fixed; TOP:50%; LEFT:35%; transform: translate(-50%, -50%); line-height: 0" >';
+      new_html += `<div id="multiattribute-choices-stimulus-left" ><img style = "HEIGHT:150px; WIDTH:150px" src="${trial.stimulus[0]}"/></div>`;
       new_html += '</div>';
-      new_html += '<div class="container-multi-choice-column" id= "multiattribute-choices-stimulus-right">';
-      //new_html += `<div id="multiattribute-choices-stimulus-right " ><img style="position:relative; LEFT:150px; TOP:-107px; HEIGHT:100px; WIDTH:100px" src="${trial.stimulus[1]}"/ ></div>`;
-      new_html += `<div id="multiattribute-choices-stimulus-right " ><img style="position:fixed; HEIGHT:100px; WIDTH:100px; TOP:50%; LEFT:60%; transform: translate(-50%, -50%)" src="${trial.stimulus[1]}"/ ></div>`;
+      new_html += '<div class="container-multi-choice-column" id= "multiattribute-choices-stimulus-right" style="position:fixed; TOP:50%; LEFT:65%; transform: translate(-50%, -50%); line-height: 0">';
+      new_html += `<div id="multiattribute-choices-stimulus-right" ><img style = "HEIGHT:150px; WIDTH:150px" src="${trial.stimulus[1]}"/ ></div>`;
       new_html += '</div>';
       new_html += '<div id="binary-timeoutinfo"></div>';
       new_html += '</div>';
@@ -86,10 +84,10 @@ jsPsych.plugins["binary-choice-shifted"] = (function () {
       var selected;
       if (String.fromCharCode(response.key) == trial.choices[0]) {
         selected = '#multiattribute-choices-stimulus-left';
-        $(selected).css('border', `12px solid ${selected_color}`);
+        $(selected).css('border', `18px solid ${selected_color}`);
       } else {
         selected = '#multiattribute-choices-stimulus-right';
-        $(selected).css('border', `12px solid ${selected_color}`);
+        $(selected).css('border', `18px solid ${selected_color}`);
       }
       //$(selected).css('border', `12px solid ${selected_color}`);
     };

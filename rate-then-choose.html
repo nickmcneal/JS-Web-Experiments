@@ -8,10 +8,14 @@
         <script src="jspsych-6.1.0/plugins/jspsych-image-keyboard-response.js"></script>
         <script src="jspsych-6.1.0/plugins/jspsych-image-slider-response.js"></script>
         <script src="jspsych-6.1.0/plugins/binary-choice-shifted.js"></script>
+        <script src="jspsych-6.1.0/plugins/combinations.js"></script>
         <link href="jspsych-6.1.0/css/jspsych.css" rel="stylesheet" type="text/css"></link>
   </head>
   <body></body>
   <script>  
+    /*Study Parameters */
+    const nTrials = 45;
+
 
     /* create timeline */
     var timeline = [];
@@ -69,7 +73,9 @@
       "img/Take5.jpg",
       "img/TrailMix.jpg",
       "img/Whoppers.jpg"
-    ]
+    ];
+
+    rate_stim_files = jsPsych.randomization.shuffle(rate_stim_files);
     
     var choiceImages = {
       LowVal: [],
@@ -99,17 +105,20 @@
         if(data.response > 0 && data.response <= 33.33){
           choiceImages.LowVal.push({
             stim : data.stimulus,
-            val: data.response});
+            val: data.response,
+            nTrials = 0});
         }
         else if(data.response > 33.33 && data.response <= 66.67){
           choiceImages.MidVal.push({
             stim : data.stimulus,
-            val: data.response});
+            val: data.response,
+            nTrials = 0});
         }
         else{
           choiceImages.HighVal.push({
             stim : data.stimulus,
-            val: data.response});
+            val: data.response,
+            nTrials = 0});
         }
       }
     };
@@ -122,6 +131,44 @@
     prompt: "<p>How healthy/unhealthy is this food?</p>",
     };
     */
+    var choiceTrialsLow = [];
+    
+    /*
+    1. All low value images
+    2. Combine all low-value images in all possible pairings
+    3. Track the number of times each image is in a pair
+    4. If number of trials > minimum number of trials, delete trials where an image is seen
+      more than 7 times; otherwise, keep
+    */
+
+    var allPossibleTrialsLow = k_combinations(choiceImages.LowVal);
+    var lowChoiceTrials = [];
+    var nImageRepeat = 5;
+    while (lowChoiceTrials.length < nTrials){
+      for(i=0; i<=allPossibleTrialsLow.length; i++){
+        thisTempTrial = allPossibleTrialsLow[i];
+        image1 = thisTempTrial[0];
+        imgage2 = thisTempTrial[1];
+        if(image1.nTrials >= nImageRepeat){ //if seen 7+ times, bad and skip
+          continue;
+        } else {
+          image1.nTrials++;
+        };
+        if(image2.nTrials >= nImageRepeat){ //if seen 7+ times, bad and skip
+          continue;
+        } else {
+          image2.nTrials++;
+        };
+        allPossibleTrialsLow.splice(i,1);
+        lowChoiceTrials.push(thisTempTrial);
+      };
+      nImageRepeat++;
+    }
+
+    
+
+
+
 
     var trialCounter = 0;
 
